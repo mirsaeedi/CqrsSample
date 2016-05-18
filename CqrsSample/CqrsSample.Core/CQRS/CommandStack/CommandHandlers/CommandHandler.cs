@@ -10,37 +10,44 @@ namespace CqrsSample.Core.CQRS.CommandStack.CommandHandlers
         where TCommand : CqrsCommand
         where TCommandResult : CqrsCommandResult
     {
-        private IDataContext _innerDataContext { get;  set; } // این قابل دور زدن هست و مخقی نیست
+        internal IDataContext InnerDataContext { get;  set; }
         protected ISetDataContext SetDataContext { get; private set; }
         protected bool ParentOfChain { get; set; }
         internal Entity CommandEntity { get; set; }
 
-        public CommandHandler(IDataContext innerDataContext, bool parentOfChain = true)
+        internal CommandHandler()
         {
-            _innerDataContext = innerDataContext;
-            ParentOfChain = parentOfChain;
-
-            SetDataContext = new SetDataContext(innerDataContext);
+            ParentOfChain = true;
         }
 
-        public async Task<TCommandResult> Execute(TCommand command, int userId, string ip)
+        public async Task<TCommandResult> Execute(TCommand command)
         {
             try
             {
-                if (ActivityAuthorizationIsConfirmed(userId))
+                SetDataContext = new SetDataContext(InnerDataContext);
+
+                if (ActivityAuthorizationIsConfirmed(command))
                 {
                     SaveCommand(command);
 
                     GetLock();
-                    
-                    var result = await Execute(command, userId);
+
+                    var commandResult = PreExecutionValidation(command);
+
+                    if (commandResult.MetaData.WasSuccesfull)
+                    {
+                        await Handle(command);
+                        PostExecutionValidate(command, commandResult);
+                    }
+
+                    var result = await Execute(command);
                     SaveCommandResult(result);
 
                     if (result.MetaData.WasSuccesfull)
                     {
                         if (ParentOfChain)
                         {
-                            await _innerDataContext.SaveChangesAsync();
+                            await InnerDataContext.SaveChangesAsync();
                             OnSucess(command, result);
                         }
 
@@ -80,25 +87,12 @@ namespace CqrsSample.Core.CQRS.CommandStack.CommandHandlers
             return null;
         }
 
-        protected virtual bool ActivityAuthorizationIsConfirmed(int userId)
+        protected virtual bool ActivityAuthorizationIsConfirmed(TCommand command)
         {
             return true;
         }
 
-        public virtual async Task<TCommandResult> Execute(TCommand command, int userId)
-        {
-            var commandResult = PreExecutionValidation(command, userId);
-
-            if (commandResult.MetaData.WasSuccesfull)
-            {
-                await Handle(command, userId);
-                PostExecutionValidate(command, commandResult);
-            }
-
-            return commandResult;
-        }
-
-        protected virtual async Task Handle(TCommand command, int userId) { }
+        protected abstract Task Handle(TCommand command);
 
         protected virtual void SaveCommand(TCommand command) { }
 
@@ -115,7 +109,7 @@ namespace CqrsSample.Core.CQRS.CommandStack.CommandHandlers
 
         protected virtual void PostExecutionValidate(TCommand command, TCommandResult commandResult) { }
 
-        protected abstract TCommandResult PreExecutionValidation(TCommand command, int userId);
+        protected abstract TCommandResult PreExecutionValidation(TCommand command);
 
         protected CqrsCommandResult OkResult(TCommand command)
         {

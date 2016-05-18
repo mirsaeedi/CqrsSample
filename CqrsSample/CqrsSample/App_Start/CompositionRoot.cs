@@ -24,36 +24,7 @@ namespace CqrsSample
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly())
                 .PropertiesAutowired();
 
-            builder
-                .RegisterType<QueryDispatcher>()
-                .InstancePerRequest();
-
-            builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
-                   .AsClosedTypesOf(typeof(IQueryHandler<,>));
-
-            builder
-                .RegisterType<CommandDispatcher>()
-                .InstancePerRequest();
-
-            builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
-                   .AsClosedTypesOf(typeof(ICommandHandler<,>));
-
-            builder
-                .Register((c) => {
-                    var dbContext = new FineBusinessContext();
-                    return dbContext;
-                })
-                .As<DbContextBase>()
-                .InstancePerRequest();
-
-            builder.RegisterType<DataContext>()
-                .AsImplementedInterfaces();
-
-            builder.RegisterType<ReadOnlyDataContext>()
-                .AsImplementedInterfaces();
-
-            builder.RegisterType<SetDataContext>()
-                .AsImplementedInterfaces();
+         
 
 
 

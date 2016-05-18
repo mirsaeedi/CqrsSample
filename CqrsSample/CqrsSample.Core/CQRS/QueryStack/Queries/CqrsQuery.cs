@@ -1,6 +1,6 @@
 ﻿namespace CqrsSample.Core.CQRS.QueryStack.Queries
 {
-    public abstract class CqrsQuery: CqrsMessage
+    public abstract class CqrsQuery: ICqrsMessage
     {
     }
 }

@@ -7,7 +7,7 @@ namespace CqrsSample.Core.CQRS.CommandStack.CommandHandlers
           where TCommand : CqrsCommand
           where TCommandResult : CqrsCommandResult
     {
-        Task<TCommandResult> Execute(TCommand command, int userId, string ip);
+        Task<TCommandResult> Execute(TCommand command);
     }    
     
 }
