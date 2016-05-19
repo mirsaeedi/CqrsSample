@@ -40,22 +40,21 @@ namespace CqrsSample.Core.CQRS.CommandStack.CommandHandlers
                         PostExecutionValidate(command, commandResult);
                     }
 
-                    var result = await Execute(command);
-                    SaveCommandResult(result);
+                    SaveCommandResult(commandResult);
 
-                    if (result.MetaData.WasSuccesfull)
+                    if (commandResult.MetaData.WasSuccesfull)
                     {
                         if (ParentOfChain)
                         {
                             await InnerDataContext.SaveChangesAsync();
-                            OnSucess(command, result);
+                            OnSucess(command, commandResult);
                         }
 
                     }
                     else
-                        OnFail(null, command, result);
+                        OnFail(null, command, commandResult);
 
-                    return result;
+                    return commandResult;
                 }
                 else
                 {

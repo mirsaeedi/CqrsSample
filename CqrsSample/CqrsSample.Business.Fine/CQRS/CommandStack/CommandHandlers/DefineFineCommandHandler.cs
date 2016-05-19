@@ -16,6 +16,7 @@ namespace CqrsSample.Business.Fine.CQRS.CommandStack.CommandHandlers
         protected override async Task Handle(DefineFineCqrsCommand cqrsCommand)
         {
             var fine = new Data.Models.Fine(cqrsCommand.Name,cqrsCommand.MinCost,cqrsCommand.MaxCost,cqrsCommand.DefaultCost);
+
             SetDataContext.Set<Data.Models.Fine>().Add(fine);
         }
     }
