@@ -16,11 +16,10 @@ namespace CqrsSample.Core.CQRS.CommandStack
     {
         private readonly IComponentContext _context;
 
-        internal CommandDispatcher(IComponentContext context)
+        public CommandDispatcher(IComponentContext context)
         {
             _context = context;
         }
-
 
         public async Task<CqrsCommandResult> Dispatch<TCommand>(TCommand command, int userId, string ip)
             where TCommand : CqrsCommand
@@ -31,25 +30,27 @@ namespace CqrsSample.Core.CQRS.CommandStack
 
             var assmeblyName = typeof (TCommand).Assembly.GetName();
 
-            var dataContext = _context.Resolve<IEnumerable<Meta<IDataContext>>>()
-                .First(a => a.Metadata["assembly_name"].Equals(assmeblyName)).Value;
+            var dataContext = _context.Resolve<IDataContext>();
 
-            if (command.GetType().GetGenericTypeDefinition() == typeof (CreateCqrsCommand<>))
+            if (command.GetType().IsGenericType)
             {
-                var handlerType = typeof (CreateCommandHandler<>);
-                return await HandlerCrudCommands(handlerType, command, dataContext);
-            }
+                if (command.GetType().GetGenericTypeDefinition() == typeof(CreateCqrsCommand<>))
+                {
+                    var handlerType = typeof(CreateCommandHandler<>);
+                    return await HandlerCrudCommands(handlerType, command, dataContext);
+                }
 
-            if (command.GetType().GetGenericTypeDefinition() == typeof (UpdateCqrsCommand<>))
-            {
-                var handlerType = typeof (UpdateCqrsCommand<>);
-                return await HandlerCrudCommands(handlerType, command, dataContext);
-            }
+                if (command.GetType().GetGenericTypeDefinition() == typeof(UpdateCqrsCommand<>))
+                {
+                    var handlerType = typeof(UpdateCqrsCommand<>);
+                    return await HandlerCrudCommands(handlerType, command, dataContext);
+                }
 
-            if (command.GetType().GetGenericTypeDefinition() == typeof (DeleteCqrsCommand<>))
-            {
-                var handlerType = typeof (DeleteCqrsCommand<>);
-                return await HandlerCrudCommands(handlerType, command, dataContext);
+                if (command.GetType().GetGenericTypeDefinition() == typeof(DeleteCqrsCommand<>))
+                {
+                    var handlerType = typeof(DeleteCqrsCommand<>);
+                    return await HandlerCrudCommands(handlerType, command, dataContext);
+                }
             }
 
             var handler =

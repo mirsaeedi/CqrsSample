@@ -7,9 +7,10 @@ using CqrsSample.Core.Data.DataContext;
 namespace CqrsSample.Core.CQRS.QueryStack.QueryHandler
 {
     public abstract class QueryHandler<TQuery, TQueryValueResult> : IQueryHandler<TQuery, TQueryValueResult>
-                    where TQuery : CqrsQuery where TQueryValueResult : class
+                    where TQuery : CqrsQuery 
+                    where TQueryValueResult : class
     {
-        public IReadOnlyDataContext DataContext { get; private set; }
+        public IReadOnlyDataContext DataContext { get; internal set; }
 
         public QueryHandler()
         {

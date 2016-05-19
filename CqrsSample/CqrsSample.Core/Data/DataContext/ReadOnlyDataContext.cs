@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity.Infrastructure;
+using Autofac.Extras.Attributed;
 using CqrsSample.Core.Data.Models;
 
 namespace CqrsSample.Core.Data.DataContext
@@ -7,7 +8,7 @@ namespace CqrsSample.Core.Data.DataContext
     {
         private readonly DbContextBase _dbContext;
 
-        public ReadOnlyDataContext(DbContextBase dbContext)
+        public ReadOnlyDataContext([WithKey("assembly_name")]DbContextBase dbContext)
         {
             _dbContext = dbContext;
         }

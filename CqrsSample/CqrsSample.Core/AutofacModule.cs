@@ -14,16 +14,14 @@ namespace CqrsSample.Core
         protected override void Load(ContainerBuilder builder)
         {
             builder
-             .RegisterType<QueryDispatcher>()
-             .InstancePerRequest();
+                .RegisterType<QueryDispatcher>();
 
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
                    .AsClosedTypesOf(typeof(IQueryHandler<,>))
                    .PropertiesAutowired();
 
             builder
-                .RegisterType<CommandDispatcher>()
-                .InstancePerRequest();
+                .RegisterType<CommandDispatcher>();
 
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
                    .AsClosedTypesOf(typeof(ICommandHandler<,>))

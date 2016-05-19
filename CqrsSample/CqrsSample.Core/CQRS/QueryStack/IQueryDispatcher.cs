@@ -6,6 +6,8 @@ namespace CqrsSample.Core.CQRS.QueryStack
 {
     public interface IQueryDispatcher
     {
-        Task<CqrsQueryResult<TValue>> Dispatch<TQuery, TValue>(TQuery query, int userId, string ip) where TQuery : CqrsQuery;
+        Task<CqrsQueryResult<TQueryValueResult>> Dispatch<TQuery, TQueryValueResult>(TQuery query, int userId, string ip)
+            where TQuery : CqrsQuery
+            where TQueryValueResult : class;
     }
 }
