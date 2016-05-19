@@ -84,6 +84,7 @@
     <Compile Include="CQRS\QueryStack\Queries\CRUDQueries\ReadCqrsQuery.cs" />
     <Compile Include="CQRS\QueryStack\QueryDispatcher.cs" />
     <Compile Include="CQRS\QueryStack\QueryHandler\CRUDHandler\ReadQueryHandler.cs" />
+    <Compile Include="CQRS\QueryStack\QueryHandler\IQueryHandler.cs" />
     <Compile Include="CQRS\QueryStack\QueryHandler\QueryHandler.cs" />
     <Compile Include="CQRS\QueryStack\QueryResults\CqrsQueryResult.cs" />
     <Compile Include="Data\DataContext\DataContext.cs" />

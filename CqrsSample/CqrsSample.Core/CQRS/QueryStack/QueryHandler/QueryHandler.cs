@@ -9,29 +9,38 @@ namespace CqrsSample.Core.CQRS.QueryStack.QueryHandler
     public abstract class QueryHandler<TQuery, TQueryValueResult> : IQueryHandler<TQuery, TQueryValueResult>
                     where TQuery : CqrsQuery where TQueryValueResult : class
     {
-        protected IReadOnlyDataContext DataContext { get; private set; }
+        public IReadOnlyDataContext DataContext { get; private set; }
 
-        public QueryHandler(IReadOnlyDataContext dataContext)
+        public QueryHandler()
         {
-            DataContext = dataContext;
+
         }
 
-        public async Task<CqrsQueryResult<TQueryValueResult>> Execute(TQuery query, int userId, string ip)
+        public async Task<CqrsQueryResult<TQueryValueResult>> Execute(TQuery query)
         {
             try
             {
-                if (ActivityAuthorizationIsConfirmed(userId))
+                if (ActivityAuthorizationIsConfirmed(query))
                 {
                     SaveQuery(query);
-                    var result = await Execute(query, userId);
-                    SaveQueryResult(result);
 
-                    if (result.MetaData.WasSuccesfull)
-                        OnSucess(query, result);
+                    var queryResult = PreExecutionValidation(query);
+
+                    if (queryResult.MetaData.WasSuccesfull)
+                    {
+                        var value = await GetResult(query);
+                        queryResult.Value = value;
+                        PostExecutionValidation(query, value, queryResult);
+                    }
+
+                    SaveQueryResult(queryResult);
+
+                    if (queryResult.MetaData.WasSuccesfull)
+                        OnSucess(query, queryResult);
                     else
-                        OnFail(null, query, result);
+                        OnFail(null, query, queryResult);
 
-                    return result;
+                    return queryResult;
                 }
                 else
                 {
@@ -53,23 +62,9 @@ namespace CqrsSample.Core.CQRS.QueryStack.QueryHandler
             return null;
         }
 
-        protected virtual bool ActivityAuthorizationIsConfirmed(int userId)
+        protected virtual bool ActivityAuthorizationIsConfirmed(TQuery query)
         {
             return true;
-        }
-
-        public async Task<CqrsQueryResult<TQueryValueResult>> Execute(TQuery query, int userId)
-        {
-            var queryResult = PreExecutionValidation(query);
-
-            if (queryResult.MetaData.WasSuccesfull)
-            {
-                var value = await GetResult(query, userId);
-                queryResult.Value = value;
-                PostExecutionValidation(query, value, queryResult);
-            }
-
-            return queryResult;
         }
 
         protected virtual void PostExecutionValidation(TQuery query, TQueryValueResult value, CqrsQueryResult<TQueryValueResult> queryResult)
@@ -77,7 +72,7 @@ namespace CqrsSample.Core.CQRS.QueryStack.QueryHandler
 
         }
 
-        protected virtual async Task<TQueryValueResult> GetResult(TQuery query, int userId) { return default(TQueryValueResult); }
+        protected virtual async Task<TQueryValueResult> GetResult(TQuery query) { return default(TQueryValueResult); }
 
         protected virtual CqrsQueryResult<TQueryValueResult> PreExecutionValidation(TQuery query)
         {

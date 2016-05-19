@@ -222,11 +222,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201605170709371_th1.cs" />
-    <Compile Include="Migrations\201605170709371_th1.Designer.cs">
-      <DependentUpon>201605170709371_th1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -282,9 +277,18 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201605170709371_th1.resx">
-      <DependentUpon>201605170709371_th1.cs</DependentUpon>
-    </EmbeddedResource>
+    <ProjectReference Include="..\CqrsSample.Business.Financial\CqrsSample.Business.Financial.csproj">
+      <Project>{f99a3fcc-68e4-4fab-9260-9031f5d82bdb}</Project>
+      <Name>CqrsSample.Business.Financial</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CqrsSample.Business.Fine\CqrsSample.Business.Fine.csproj">
+      <Project>{1871cf6f-fcbb-4a6e-b372-a18abac55aff}</Project>
+      <Name>CqrsSample.Business.Fine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CqrsSample.Core\CqrsSample.Core.csproj">
+      <Project>{be5f08ed-e908-46c8-be15-cc9af86826b8}</Project>
+      <Name>CqrsSample.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

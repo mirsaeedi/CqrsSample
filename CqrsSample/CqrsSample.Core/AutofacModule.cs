@@ -37,9 +37,6 @@ namespace CqrsSample.Core
 
             builder.RegisterType<SetDataContext>()
                 .AsImplementedInterfaces();
-
-            builder.RegisterModule<ModuleDiscoveryAttribute>();
-
         }
     }
 }

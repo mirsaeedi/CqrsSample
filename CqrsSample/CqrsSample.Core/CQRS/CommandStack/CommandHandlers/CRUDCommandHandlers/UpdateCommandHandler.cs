@@ -12,17 +12,12 @@ namespace CqrsSample.Core.CQRS.CommandStack.CommandHandlers.CRUDCommandHandlers
         where TEntity : Entity
     {
 
-        public UpdateCommandHandler(IDataContext innerDataContext, bool parentOfChain = true) 
-            : base(innerDataContext, parentOfChain)
-        {
-        }
-
-        protected override CqrsCommandResult PreExecutionValidation(UpdateCqrsCommand<TEntity> cqrsCommand, int userId)
+        protected override CqrsCommandResult PreExecutionValidation(UpdateCqrsCommand<TEntity> cqrsCommand)
         {
             return OkResult(cqrsCommand);
         }
 
-        protected override async Task Handle(UpdateCqrsCommand<TEntity> cqrsCommand, int userId)
+        protected override async Task Handle(UpdateCqrsCommand<TEntity> cqrsCommand)
         {
             SetDataContext.Update(cqrsCommand.Entity);
         }

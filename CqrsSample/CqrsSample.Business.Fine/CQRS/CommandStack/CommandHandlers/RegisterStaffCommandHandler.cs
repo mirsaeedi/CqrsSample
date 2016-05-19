@@ -9,17 +9,12 @@ namespace CqrsSample.Business.Fine.CQRS.CommandStack.CommandHandlers
 {
     public class RegisterStaffCommandHandler:CommandHandler<RegisterStaffCqrsCommand,CqrsCommandResult>
     {
-        public RegisterStaffCommandHandler(IDataContext dataContext, bool parentOfChain = true)
-            : base(dataContext, parentOfChain)
-        {
-        }
-
-        protected override CqrsCommandResult PreExecutionValidation(RegisterStaffCqrsCommand cqrsCommand, int userId)
+        protected override CqrsCommandResult PreExecutionValidation(RegisterStaffCqrsCommand cqrsCommand)
         {
             return OkResult(cqrsCommand);
         }
 
-        protected override async Task Handle(RegisterStaffCqrsCommand cqrsCommand, int userId)
+        protected override async Task Handle(RegisterStaffCqrsCommand cqrsCommand)
         {
             var staff=new Staff(cqrsCommand.Name,cqrsCommand.DateTime);
             SetDataContext.Set<Staff>().Add(staff);

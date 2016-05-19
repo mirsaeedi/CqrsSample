@@ -10,13 +10,8 @@ namespace CqrsSample.Core.CQRS.QueryStack.QueryHandler.CRUDHandler
     public class ReadQueryHandler<TEntity>:QueryHandler<ReadCqrsQuery<TEntity>,TEntity[]>
         where TEntity:Entity
     {
-        public ReadQueryHandler(IReadOnlyDataContext dataContext) : base(dataContext)
-        {
-            
-            dataContext.Set<TEntity>().Include(e => e.Id);
-        }
 
-        protected override async Task<TEntity[]> GetResult(ReadCqrsQuery<TEntity> cqrsQuery, int userId)
+        protected override async Task<TEntity[]> GetResult(ReadCqrsQuery<TEntity> cqrsQuery)
         {
 
             var set = DataContext.Set<TEntity>();

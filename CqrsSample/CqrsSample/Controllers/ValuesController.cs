@@ -1,21 +1,16 @@
-﻿using System;
+﻿using CqrsSample.Core.CQRS.CommandStack;
+using CqrsSample.Core.CQRS.QueryStack;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
-using CqrsSample.CommandStack;
-using CqrsSample.CommandStack.Commands;
-using CqrsSample.CQRS.CommandStack;
-using CqrsSample.CQRS.CommandStack.CommandHandlers.CRUDCommandHandlers;
-using CqrsSample.CQRS.CommandStack.Commands.CRUDCommands;
-using CqrsSample.CQRS.QueryStack;
-using CqrsSample.CQRS.QueryStack.Queries.CRUDQueries;
-using CqrsSample.Data.Models;
-using CqrsSample.FineBusiness.CQRS.CommandStack.Commands;
-using CqrsSample.FineBusiness.CQRS.QueryStack.Queries;
-using CqrsSample.QueryStack;
+using CqrsSample.Business.Fine.CQRS.CommandStack.Commands;
+using CqrsSample.Business.Fine.Data.Models;
+using CqrsSample.Core.CQRS.CommandStack.Commands.CRUDCommands;
+using CqrsSample.Core.CQRS.QueryStack.Queries.CRUDQueries;
 
 namespace CqrsSample.Controllers
 {
@@ -28,14 +23,14 @@ namespace CqrsSample.Controllers
         [Route("fines"),HttpPost]
         public async Task<IHttpActionResult> DefineFine(DefineFineCqrsCommand cqrsCommand)
         { 
-            var commandResult = await CommandDispatcher.Dispatch<DefineFineCqrsCommand>(cqrsCommand, GetCurrentUserId(), GetCurrentIp());
+            var commandResult = await CommandDispatcher.Dispatch(cqrsCommand, GetCurrentUserId(), GetCurrentIp());
             return Ok();
         }
 
         [Route("fines-crud"), HttpPost]
         public async Task<IHttpActionResult> GetStaffFines(CreateCqrsCommand<Fine> command)
         {
-            var commandResult = await CommandDispatcher.Dispatch<CreateCqrsCommand<Fine>>(command, GetCurrentUserId(), GetCurrentIp());
+            var commandResult = await CommandDispatcher.Dispatch(command, GetCurrentUserId(), GetCurrentIp());
             return Ok();
         }
 
@@ -43,7 +38,7 @@ namespace CqrsSample.Controllers
         [Route("staffs/register"), HttpGet]
         public async Task<IHttpActionResult> RegisterStaff(RegisterStaffCqrsCommand cqrsCommand)
         {
-            var commandResult = await CommandDispatcher.Dispatch<RegisterStaffCqrsCommand>(cqrsCommand, GetCurrentUserId(), GetCurrentIp());
+            var commandResult = await CommandDispatcher.Dispatch(cqrsCommand, GetCurrentUserId(), GetCurrentIp());
             return Ok();
         }
 

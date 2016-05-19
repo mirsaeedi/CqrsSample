@@ -15,7 +15,7 @@ namespace CqrsSample.Core.CQRS.CommandStack.CommandHandlers
         protected bool ParentOfChain { get; set; }
         internal Entity CommandEntity { get; set; }
 
-        internal CommandHandler()
+        public CommandHandler()
         {
             ParentOfChain = true;
         }

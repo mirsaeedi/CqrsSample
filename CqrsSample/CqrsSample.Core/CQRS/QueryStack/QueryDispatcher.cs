@@ -13,7 +13,7 @@ namespace CqrsSample.Core.CQRS.QueryStack
     public class QueryDispatcher : IQueryDispatcher
     {
         private readonly IComponentContext _context;
-        public QueryDispatcher(IComponentContext context)
+        internal QueryDispatcher(IComponentContext context)
         {
             _context = context;
         }
@@ -25,23 +25,23 @@ namespace CqrsSample.Core.CQRS.QueryStack
             if (query.GetType().GetGenericTypeDefinition() == typeof (ReadCqrsQuery<>))
             {
                 var handlerType = typeof (ReadQueryHandler<>);
-                return await HandlerCrudQuery<TQuery, TValue>(handlerType, query, userId, ip);
+                return await HandlerCrudQuery<TQuery, TValue>(handlerType, query);
             }
             else
             {
                 var handler = _context.Resolve<IQueryHandler<TQuery, TValue>>();
-                return await handler.Execute(query, userId, ip);
+                return await handler.Execute(query);
             }
             
         }
 
-        private async Task<CqrsQueryResult<TValue>> HandlerCrudQuery<TQuery, TValue>(Type handlerType, TQuery command, int userId, string ip)
+        private async Task<CqrsQueryResult<TValue>> HandlerCrudQuery<TQuery, TValue>(Type handlerType, TQuery query)
         {
             Type[] typeArgs = { typeof(TQuery).GetGenericArguments()[0] };
             var genericHandlerType = handlerType.MakeGenericType(typeArgs);
 
             dynamic queryHandler = Activator.CreateInstance(genericHandlerType, _context.Resolve<IReadOnlyDataContext>());
-            return await queryHandler.Execute(command, userId, ip);
+            return await queryHandler.Execute(query);
         }
     }
 }

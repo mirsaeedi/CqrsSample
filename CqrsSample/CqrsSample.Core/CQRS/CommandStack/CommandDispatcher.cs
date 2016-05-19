@@ -16,7 +16,7 @@ namespace CqrsSample.Core.CQRS.CommandStack
     {
         private readonly IComponentContext _context;
 
-        public CommandDispatcher(IComponentContext context)
+        internal CommandDispatcher(IComponentContext context)
         {
             _context = context;
         }

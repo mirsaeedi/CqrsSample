@@ -8,18 +8,12 @@ namespace CqrsSample.Business.Fine.CQRS.CommandStack.CommandHandlers
 {
     public class DefineFineCommandHandler:CommandHandler<DefineFineCqrsCommand, CqrsCommandResult>
     {
-        public DefineFineCommandHandler(IDataContext dataContext, bool parentOfChain = true) 
-            : base(dataContext, parentOfChain)
-        {
-
-        }
-
-        protected override  CqrsCommandResult PreExecutionValidation(DefineFineCqrsCommand cqrsCommand, int userId)
+        protected override  CqrsCommandResult PreExecutionValidation(DefineFineCqrsCommand cqrsCommand)
         {
             return OkResult(cqrsCommand);
         }
 
-        protected override async Task Handle(DefineFineCqrsCommand cqrsCommand, int userId)
+        protected override async Task Handle(DefineFineCqrsCommand cqrsCommand)
         {
             var fine = new Data.Models.Fine(cqrsCommand.Name,cqrsCommand.MinCost,cqrsCommand.MaxCost,cqrsCommand.DefaultCost);
             SetDataContext.Set<Data.Models.Fine>().Add(fine);

@@ -12,17 +12,13 @@ namespace CqrsSample.Business.Fine.CQRS.QueryStack.QueriesHandler
 {
     public class GetStaffFinesQueryHandler:QueryHandler<GetStaffFinesCqrsQuery,List<StaffFine>>
     {
-        public GetStaffFinesQueryHandler(IReadOnlyDataContext dataContext) : base(dataContext)
-        {
-
-        }
 
         protected override CqrsQueryResult<List<StaffFine>> PreExecutionValidation(GetStaffFinesCqrsQuery cqrsQuery)
         {
             return OkResult(cqrsQuery);
         }
 
-        protected override async Task<List<StaffFine>> GetResult(GetStaffFinesCqrsQuery cqrsQuery, int userId)
+        protected override async Task<List<StaffFine>> GetResult(GetStaffFinesCqrsQuery cqrsQuery)
         {
             return await DataContext.Set<StaffFine>()
                 .Where(q => q.DateTime >= cqrsQuery.FromDateTime && q.DateTime < cqrsQuery.ToDateTime

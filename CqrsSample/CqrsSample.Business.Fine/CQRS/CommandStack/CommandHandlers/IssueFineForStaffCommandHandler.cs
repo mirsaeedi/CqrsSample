@@ -17,26 +17,19 @@ namespace CqrsSample.Business.Fine.CQRS.CommandStack.CommandHandlers
             set;
         }
 
-
-        public IssueFineForStaffCommandHandler(IDataContext dataContext, bool parentOfChain = true)
-            : base(dataContext, parentOfChain)
-        {
-
-        }
-
         // اعتبار سنجی مرتبط با یوز کیس در این متد قرار می گیرد
-        protected override CqrsCommandResult PreExecutionValidation(IssueFineForStaffCqrsCommand cqrsCommand, int userId)
+        protected override CqrsCommandResult PreExecutionValidation(IssueFineForStaffCqrsCommand cqrsCommand)
         {
             throw new NotImplementedException();
         }
 
         // استفاده از اینترفیس ها می تواند در نظر گرفته شود
-        protected override bool ActivityAuthorizationIsConfirmed(int userId)
+        protected override bool ActivityAuthorizationIsConfirmed(IssueFineForStaffCqrsCommand command)
         {
             return true;
         }
 
-        protected override async Task Handle(IssueFineForStaffCqrsCommand cqrsCommand, int userId)
+        protected override async Task Handle(IssueFineForStaffCqrsCommand cqrsCommand)
         {
             var staff = SetDataContext.Set<Staff>().Find(cqrsCommand.StaffId);
             var fine = SetDataContext.Set<Data.Models.Fine>().Find(cqrsCommand.FineId);

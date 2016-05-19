@@ -84,6 +84,11 @@
     <Compile Include="Domain\EventHandlers\FineDefinedTransactionalHandler.cs" />
     <Compile Include="Domain\Services\IInspectorService.cs" />
     <Compile Include="Domain\Services\InspectorService.cs" />
+    <Compile Include="Migrations\201605170709371_th1.cs" />
+    <Compile Include="Migrations\201605170709371_th1.Designer.cs">
+      <DependentUpon>201605170709371_th1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Module.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -96,6 +101,11 @@
       <Project>{be5f08ed-e908-46c8-be15-cc9af86826b8}</Project>
       <Name>CqrsSample.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201605170709371_th1.resx">
+      <DependentUpon>201605170709371_th1.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

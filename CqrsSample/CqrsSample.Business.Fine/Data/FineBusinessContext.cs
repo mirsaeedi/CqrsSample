@@ -7,9 +7,8 @@ using CqrsSample.Core.Data.DataContext;
 
 namespace CqrsSample.FineBusiness.Data
 {
-    [ModuleDiscovery()]
-    public class FineBusinessContext : DbContextBase
+    public class FineBusinessContext:DbContextBase
     {
-
+        
     }
 }

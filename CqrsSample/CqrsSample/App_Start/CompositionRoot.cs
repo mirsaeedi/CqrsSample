@@ -2,13 +2,6 @@
 using System.Web.Http;
 using Autofac;
 using Autofac.Integration.WebApi;
-using CqrsSample.CommandStack;
-using CqrsSample.CQRS.CommandStack;
-using CqrsSample.CQRS.CommandStack.CommandHandlers;
-using CqrsSample.CQRS.QueryStack;
-using CqrsSample.Data.DataContext;
-using CqrsSample.FineBusiness.Data;
-using CqrsSample.QueryStack.QueryHandler;
 
 namespace CqrsSample
 {
@@ -23,10 +16,6 @@ namespace CqrsSample
 
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly())
                 .PropertiesAutowired();
-
-         
-
-
 
             var container = builder.Build();
 
