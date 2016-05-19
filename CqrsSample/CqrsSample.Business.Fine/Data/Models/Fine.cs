@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 using CqrsSample.Business.Fine.Domain.Events;
 using CqrsSample.Core.Data.Models;
 
@@ -11,14 +12,15 @@ namespace CqrsSample.Business.Fine.Data.Models
             
         }
 
+        [ContractInvariantMethod]
+        private void Invariants()
+        {
+            Contract.Invariant(MinCost>0 && MaxCost>0 && DefaultCost>0);
+            Contract.Invariant(string.IsNullOrEmpty(Name));
+        }
+
         public Fine (string name, int minCost, int maxCost, int defaultCost)
         {
-            if (string.IsNullOrEmpty(name))
-                throw new Exception("");
-
-            if (minCost < 0 || maxCost < 0 || defaultCost < 0)
-                throw new Exception("");
-
             Name = name;
             MaxCost = maxCost;
             MinCost = minCost;

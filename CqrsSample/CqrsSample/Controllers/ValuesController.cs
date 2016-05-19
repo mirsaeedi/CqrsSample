@@ -2,6 +2,7 @@
 using CqrsSample.Core.CQRS.QueryStack;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -22,7 +23,7 @@ namespace CqrsSample.Controllers
 
         [Route("fines"),HttpPost]
         public async Task<IHttpActionResult> DefineFine(DefineFineCqrsCommand cqrsCommand)
-        { 
+        {
             var commandResult = await CommandDispatcher.Dispatch(cqrsCommand, GetCurrentUserId(), GetCurrentIp());
             return Ok();
         }
@@ -33,7 +34,6 @@ namespace CqrsSample.Controllers
             var commandResult = await CommandDispatcher.Dispatch(command, GetCurrentUserId(), GetCurrentIp());
             return Ok();
         }
-
 
         [Route("staffs/register"), HttpGet]
         public async Task<IHttpActionResult> RegisterStaff(RegisterStaffCqrsCommand cqrsCommand)
