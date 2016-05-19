@@ -94,9 +94,9 @@ namespace CqrsSample.Core.Data.DataContext
 
         private void FillAuditables()
         {
-            foreach (var changeSet in ChangeTracker.Entries<AuditableEntity>())
+            foreach (var changeSet in ChangeTracker.Entries<IAuditableEntity>())
             {
-                var auditableEntity = changeSet.Entity as AuditableEntity;
+                var auditableEntity = changeSet.Entity;
 
                 if (changeSet.Property(p => p.CreateDateTime).IsModified || changeSet.Property(p => p.LastModifiedDateTime).IsModified)
                 {

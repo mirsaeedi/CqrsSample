@@ -20,6 +20,11 @@ namespace CqrsSample.Controllers
         public CommandDispatcher CommandDispatcher { get; set; }
         public QueryDispatcher QueryDispatcher { get; set; }
 
+        public BusinessController()
+        {
+            
+        }
+
         [Route("fines"),HttpPost]
         public async Task<IHttpActionResult> DefineFine(DefineFineCqrsCommand cqrsCommand)
         { 

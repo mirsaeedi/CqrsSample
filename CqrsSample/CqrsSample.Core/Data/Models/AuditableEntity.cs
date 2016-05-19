@@ -2,12 +2,12 @@
 
 namespace CqrsSample.Core.Data.Models
 {
-    public class AuditableEntity:Entity
+    public interface IAuditableEntity
     {
-        public long LastModifierId { get; internal set; }
+        long LastModifierId { get;  set; }
 
-        public DateTime LastModifiedDateTime { get; internal set; }
+        DateTime LastModifiedDateTime { get; set; }
 
-        public DateTime CreateDateTime { get; internal set; }
+        DateTime CreateDateTime { get;  set; }
     }
 }

@@ -11,6 +11,7 @@ namespace CqrsSample.Business.Fine.Data.Models
         public ICollection<StaffFine> StaffFines { get; private set; }
 
         public string Name { get; private set; }
+        public string Address { get; private set; }
         
         private Staff()
         {
