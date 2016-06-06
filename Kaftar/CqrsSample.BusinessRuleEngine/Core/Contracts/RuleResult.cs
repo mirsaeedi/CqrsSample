@@ -2,10 +2,17 @@
 {
     public class RuleResult
     {
-        public bool Passed { get;  internal set; }
+        internal RuleResult()
+        {
+            
+        }
+
+        public bool ConditionMeeted { get; internal set; }
+
+        public double ExecutionDuration { get; internal set; }
+
+        public string RuleName { get; internal set; }
 
         public object ReturnedValue { get; internal set; }
-
-
     }
 }

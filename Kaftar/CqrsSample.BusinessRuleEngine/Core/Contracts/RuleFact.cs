@@ -8,9 +8,9 @@ namespace CqrsSample.BusinessRuleEngine.Core.Contracts
 {
     [System.AttributeUsage(System.AttributeTargets.Property,
                        AllowMultiple =false)]
-    public class RuleFact:Attribute
+    public class RuleFactAttribute : Attribute
     {
-        public RuleFact(int order=1)
+        public RuleFactAttribute(int order=1)
         {
             Order = order;
         }

@@ -1,0 +1,16 @@
+﻿{
+  "referencePaths": [
+    "mscorlib",
+    "System.Core",
+    "System",
+    "System.Data",
+    "System.Xml",
+    "System.Xml.Linq",
+    "Avicenna.RciContracts",
+    "Kaftar.RuntimePolicyInjection"
+  ],
+  "searchPaths": [
+    "Implementations"
+  ],
+  "matchPattern": "*Policy.cs"
+}

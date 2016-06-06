@@ -6,6 +6,7 @@ using Avicenna.Domain.Domain.Events;
 using Kaftar;
 using Kaftar.Core.Domain.Domain.Events.Base;
 using Kaftar.Core.MessageBroker.Core;
+using Kaftar.RuntimePolicyInjection.Core;
 
 namespace Avicenna.Application
 {
@@ -13,9 +14,8 @@ namespace Avicenna.Application
     {
         protected void Application_Start()
         {
-            new MessagePublisher().Publish(new VisitCreated(null));
+            PolicyInjectionBootstrapper.DiscoverPolicies();
 
-            //new BootStrapper().Bootstrap(null);
             CompositionRoot.Config();
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);

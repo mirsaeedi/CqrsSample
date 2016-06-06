@@ -19,13 +19,13 @@ namespace CqrsSample.BusinessRuleEngine.Core.Implementations
             facts.Add(new Tuple<Type, object>(typeof(T),fact));
         }
 
-        public ICollection<RuleResult> ExecuteRules(IRuleTagCollection tags)
+        public RuleResultSet ExecuteRules(IRuleTagCollection tags=null)
         {
             var rules = new List<IRule>();
 
             foreach (var rule in rules)
             {
-                var ruleResult = rule.Condition() ? rule.ThenAction() : rule.ElseAction();
+                
             }
 
             return null;

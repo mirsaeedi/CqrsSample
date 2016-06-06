@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CqrsSample.BusinessRuleEngine.Core.Implementations;
+using Avicenna.RciContracts;
+using System.Data;
+using CqrsSample.BusinessRuleEngine.Sample;
+using Kaftar.RuntimePolicyInjection.Core;
 
 namespace Test
 {
@@ -11,8 +14,17 @@ namespace Test
     {
         static void Main(string[] args)
         {
-            BootStrapper bootStrapper=new BootStrapper();
-            bootStrapper.Bootstrap(null);
+            PolicyInjectionBootstrapper.DiscoverPolicies();
+
+            int height = 0;
+            int weigth = 0;
+
+            Console.ReadLine();
+
+            var ruleResult = PolicyProvider.Instance
+                .Single<BmiCalculator,double>
+                ((contract) => contract.ClinicId == 7
+                , weigth, height);
         }
     }
 }

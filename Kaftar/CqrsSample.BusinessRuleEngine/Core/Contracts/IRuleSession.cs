@@ -11,6 +11,6 @@ namespace CqrsSample.BusinessRuleEngine.Core.Contracts
     {
         void AddFact<T>(T fact) where T : class;
         void RemoveFact<T>(T fact) where T : class;
-        ICollection<RuleResult> ExecuteRules(IRuleTagCollection tags);
+        RuleResultSet ExecuteRules(IRuleTagCollection tags=null);
     }
 }
